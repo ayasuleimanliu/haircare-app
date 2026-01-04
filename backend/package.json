@@ -1,12 +1,15 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Haircare backend service",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "keywords": [],
   "author": "",
@@ -15,12 +18,10 @@
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "fs": "^0.0.1-security",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
     "mysql": "^2.18.1",
-    "mysql2": "^3.16.0",
-    "path": "^0.12.7"
+    "mysql2": "^3.16.0"
   }
 }
