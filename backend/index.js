@@ -1,16 +1,23 @@
-
 import express from 'express';
 import cors from 'cors';
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+// ✅ Configure CORS to allow your Vercel frontend
+app.use(cors({
+  origin: [
+    "https://haircare-app.vercel.app", // your production domain
+    "https://haircare-app-git-main-ayas-projects-74209d90.vercel.app" // optional: preview builds
+  ],
+  methods: ["GET", "POST", "DELETE", "PUT"],
+  credentials: true
+}));
+
+app.use(express.json());
 
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, message: 'Server is healthy 🌿' });
 });
-
 
 let reviews = [
   { review_id: 1, product_id: 101, customer_name: 'Aya', rating: 5, comment: 'Amazing oil!' },
@@ -40,17 +47,14 @@ app.delete('/api/reviews/:review_id', (req, res) => {
   const { review_id } = req.params;
   const initialLength = reviews.length;
   reviews = reviews.filter(r => r.review_id != review_id);
-
   if (reviews.length === initialLength) {
     return res.status(404).json({ error: 'Review not found' });
   }
   res.json({ message: 'Review deleted successfully' });
 });
 
-
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-
   if (username === 'admin' && password === '1234') {
     return res.json({ success: true, user: { id: 1, username: 'admin', role: 'admin' } });
   }
@@ -60,7 +64,6 @@ app.post('/api/login', (req, res) => {
   res.status(401).json({ success: false, error: 'Invalid credentials' });
 });
 
-
 app.post('/api/checkout', (req, res) => {
   const { name, phone, email, address, oils } = req.body;
   res.json({
@@ -69,7 +72,6 @@ app.post('/api/checkout', (req, res) => {
     order: { name, phone, email, address, oils }
   });
 });
-
 
 app.get('/api/dashboard', (_req, res) => {
   res.json({
@@ -83,6 +85,5 @@ app.get('/api/dashboard', (_req, res) => {
   });
 });
 
-
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

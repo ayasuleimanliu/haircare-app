@@ -1,30 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Review.css";
 
 function Reviews() {
-  const [reviews, setReviews] = useState([
-    { id: 1, text: "Coconut oil made my hair so soft and shiny!", author: "Layla S." },
-    { id: 2, text: "Argan oil reduced my frizz instantly. Highly recommend!", author: "Karim A." },
-    { id: 3, text: "Castor oil really helped with my hair growth.", author: "Maya R." },
-    { id: 4, text: "Almond oil nourished my ends and reduced breakage.", author: "Nour H." },
-    { id: 5, text: "Rosemary oil boosted circulation and made my scalp feel fresh.", author: "Omar D." },
-  ]);
-
+  const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
 
-  const handleAddReview = () => {
+  const API_BASE = process.env.REACT_APP_API_BASE;
+
+  // Fetch all reviews when page loads
+  useEffect(() => {
+    fetch(`${API_BASE}/api/reviews`)
+      .then(res => res.json())
+      .then(setReviews)
+      .catch(err => console.error("Error fetching reviews:", err));
+  }, [API_BASE]);
+
+  const handleAddReview = async () => {
     if (!newReview.trim() || !newAuthor.trim()) {
       return alert("Please fill both fields!");
     }
-    const review = { id: Date.now(), text: newReview.trim(), author: newAuthor.trim() };
-    setReviews((prev) => [...prev, review]);
-    setNewReview("");
-    setNewAuthor("");
+    const review = { text: newReview.trim(), author: newAuthor.trim() };
+
+    try {
+      const res = await fetch(`${API_BASE}/api/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(review),
+      });
+      const savedReview = await res.json();
+      setReviews((prev) => [...prev, savedReview]);
+      setNewReview("");
+      setNewAuthor("");
+    } catch (err) {
+      console.error("Error adding review:", err);
+    }
   };
 
-  const handleDeleteReview = (id) => {
-    setReviews((prev) => prev.filter((r) => r.id !== id));
+  const handleDeleteReview = async (id) => {
+    try {
+      await fetch(`${API_BASE}/api/reviews/${id}`, { method: "DELETE" });
+      setReviews((prev) => prev.filter((r) => r.id !== id));
+    } catch (err) {
+      console.error("Error deleting review:", err);
+    }
   };
 
   return (

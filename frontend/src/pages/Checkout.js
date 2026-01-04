@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Checkout.css';
@@ -7,27 +6,27 @@ function Checkout() {
   const location = useLocation();
   const selectedOils = location.state?.selectedOils || [];
   const [confirmation, setConfirmation] = useState('');
+  const API_BASE = process.env.REACT_APP_API_BASE;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-   
     const order = {
       name: formData.get('name'),
       phone: formData.get('phone'),
       email: formData.get('email'),
       address: formData.get('address'),
       oils: selectedOils.map(oil => ({
-        id: oil.id || null,         
+        id: oil.id || null,
         name: oil.name,
         price: oil.price,
-        quantity: oil.quantity || 1  
+        quantity: oil.quantity || 1
       }))
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/checkout', {
+      const res = await fetch(`${API_BASE}/api/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order),
@@ -42,7 +41,7 @@ function Checkout() {
       const data = await res.json();
       if (data.success) {
         setConfirmation(
-          ` Thank you, ${order.name}! Your order was placed successfully.\n\n📞 ${order.phone}\n📧 ${order.email}\n🏠 ${order.address}`
+          `Thank you, ${order.name}! Your order was placed successfully.\n\n📞 ${order.phone}\n📧 ${order.email}\n🏠 ${order.address}`
         );
         e.target.reset();
       } else {

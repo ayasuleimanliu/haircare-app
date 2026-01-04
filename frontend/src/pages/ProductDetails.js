@@ -9,39 +9,44 @@ function ProductDetails() {
   const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState({ customer_name: '', rating: 5, comment: '' });
 
-  
+  // Use environment variable for backend
+  const API_BASE = process.env.REACT_APP_API_BASE;
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    // Fetch product details
+    fetch(`${API_BASE}/api/products`)
       .then(res => res.json())
       .then(data => {
         const found = data.find(p => p.product_id === Number(id));
         setProduct(found);
-      });
+      })
+      .catch(err => console.error("Product fetch error:", err));
 
-    fetch(`http://localhost:5000/api/reviews/${id}`)
+    // Fetch reviews for this product
+    fetch(`${API_BASE}/api/reviews/${id}`)
       .then(res => res.json())
       .then(setReviews)
-      .catch(console.error);
-  }, [id]);
+      .catch(err => console.error("Reviews fetch error:", err));
+  }, [id, API_BASE]);
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.customer_name.trim() || !form.comment.trim()) return toast.warn("Please fill all fields");
+    if (!form.customer_name.trim() || !form.comment.trim()) {
+      return toast.warn("Please fill all fields");
+    }
 
     try {
-      const res = await fetch('http://localhost:5000/api/reviews', {
+      const res = await fetch(`${API_BASE}/api/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product_id: id, ...form })
       });
       const data = await res.json();
-      
-      
-      const newReview = { 
-        ...form, 
-        review_id: data.review_id, 
-        created_at: new Date().toISOString() 
+
+      const newReview = {
+        ...form,
+        review_id: data.review_id,
+        created_at: new Date().toISOString()
       };
       setReviews([newReview, ...reviews]);
       setForm({ customer_name: '', rating: 5, comment: '' });
@@ -51,11 +56,10 @@ function ProductDetails() {
     }
   };
 
- 
   const handleDelete = async (reviewId) => {
     if (!window.confirm("Delete this review?")) return;
     try {
-      await fetch(`http://localhost:5000/api/reviews/${reviewId}`, { method: 'DELETE' });
+      await fetch(`${API_BASE}/api/reviews/${reviewId}`, { method: 'DELETE' });
       setReviews(reviews.filter(r => r.review_id !== reviewId));
       toast.info("Review removed");
     } catch (err) {
@@ -77,7 +81,7 @@ function ProductDetails() {
 
       <h2>Customer Reviews</h2>
 
-      <div className="review-form">
+      <form className="review-form" onSubmit={handleSubmit}>
         <textarea
           placeholder="Write your review..."
           value={form.comment}
@@ -89,13 +93,15 @@ function ProductDetails() {
           value={form.customer_name}
           onChange={(e) => setForm({ ...form, customer_name: e.target.value })}
         />
-        <select value={form.rating} onChange={(e) => setForm({ ...form, rating: Number(e.target.value) })}>
-           {[5,4,3,2,1].map(n => <option key={n} value={n}>{n} Stars</option>)}
+        <select
+          value={form.rating}
+          onChange={(e) => setForm({ ...form, rating: Number(e.target.value) })}
+        >
+          {[5,4,3,2,1].map(n => <option key={n} value={n}>{n} Stars</option>)}
         </select>
-        <button onClick={handleSubmit} type="submit">Submit Review</button>
-      </div>
+        <button type="submit">Submit Review</button>
+      </form>
 
-      {/* Reviews List */}
       <div className="reviews-list">
         {reviews.map((review) => (
           <div className="review-card" key={review.review_id}>
