@@ -1,0 +1,104 @@
+/* ======================== Reviews ======================== */
+.reviews {
+  padding: 30px;
+  max-width: 900px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #fffaf0, #fefefe);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* Add Review Form */
+.add-review {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #2f855a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.add-review textarea,
+.add-review input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e0;
+  width: 100%;
+  font-size: 1.2rem;
+  resize: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-review textarea:focus,
+.add-review input:focus {
+  border-color: #2f855a;
+  box-shadow: 0 0 8px rgba(47,133,90,0.3);
+  outline: none;
+}
+
+.add-review button {
+  background: linear-gradient(135deg, #2f855a, #276749);
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.add-review button:hover {
+  background: linear-gradient(135deg, #276749, #22543d);
+  transform: scale(1.05);
+}
+
+/* Review Cards */
+.review {
+  background: #fbe9e7;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border-left: 8px solid #6d4c41;
+  transition: transform 0.2s ease;
+}
+
+.review:hover {
+  transform: translateY(-3px);
+}
+
+.review p {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.review span {
+  display: block;
+  margin-top: 8px;
+  font-style: italic;
+  color: #8d6e63;
+  font-size: 1.1rem;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #b71c1c;
+  transform: scale(1.05);
+}

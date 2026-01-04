@@ -1,0 +1,101 @@
+/* Login container */
+.login {
+  padding: 3rem; /* bigger inner spacing */
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fffaf0; /* soft background like Contact */
+  max-width: 1200px; /* wider container */
+  margin: 3rem auto; /* more space around */
+  line-height: 1.8; /* slightly more breathing space */
+  color: #333;
+  border-radius: 12px; /* slightly larger corners */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); /* deeper shadow for emphasis */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Headings */
+.login h1 {
+  font-size: 5rem; /* large like About */
+  color: #2e8b57;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.login h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #2e8b57;
+  margin: 1rem auto 0;
+  border-radius: 2px;
+}
+
+/* Paragraphs */
+.login p {
+  font-size: 2rem; /* consistent with About/Contact */
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Form layout */
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Labels */
+.login label {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e8b57;
+  text-align: left;
+}
+
+/* Inputs */
+.login input {
+  padding: 1rem;
+  font-size: 1.5rem;
+  border: 2px solid #2f855a;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login input:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 6px rgba(46, 139, 87, 0.3);
+  outline: none;
+}
+
+/* Button styling */
+.login button {
+  background-color: #2f855a;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login button:hover {
+  background-color: #276749;
+  transform: translateY(-2px);
+}
+
+.login .message {
+  font-size: 1.5rem;
+  color: crimson;
+  text-align: center;
+  margin-top: 1rem;
+}
